@@ -5,14 +5,14 @@ import requests
 from time import time
 from multiprocessing.pool import ThreadPool
 
-
+#multifile download
 def urlresponse(url):
     path = url
     url = url
 
     r = requests.get(url, stream = True)
 
-    whith open(path, 'wb') as f:
+    with open(path, 'wb') as f:
         for ch in r:
             f.write(ch)
 
@@ -25,6 +25,22 @@ start = time()
 for x in urls:
     url_response(x)
 print("downloaded in {time() - start} seconds")
+
+
+#single file download
+def download(url, file):
+    #need input for url
+
+    file = requests.get(url)
+    open("path", 'wb').write(file.content)
+
+
+create_folder(path):
+    #path = "input path as string"
+    access_rights = 0o755
+    os.mkdir(path, access_rights)
+
+
 
 
 def main():
