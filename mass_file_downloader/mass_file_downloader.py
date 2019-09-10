@@ -2,10 +2,21 @@
 import sys
 import os
 import requests
+import re
 from time import time
 from multiprocessing.pool import ThreadPool
 
 from html_scraper import parse
+
+
+#piviting to object oriented for easier functions
+class image:
+
+    def __init__(self, url, type, name):
+        self.url = url
+        self.type = type
+        self.name = name
+        self.fin = False
 
 
 #downloader
@@ -30,6 +41,10 @@ def create_folder(path):
     access_rights = 0o755
     if(os.path.exists(path) == False):
         os.makedirs(path, access_rights)
+
+
+
+
 
 
 def splice(lis):
@@ -73,13 +88,65 @@ def mass_down(path, urls):
     print(str(i) + " files downloaded")
 
 
+
+
+#obj ori stuff
+
+#needs to make lis of objects
+def make_ims(urls):
+
+    imgs = []
+
+    #regex for type
+    type = "(\.[a-z]+)\Z"
+
+    #regex for name (on chan) end chars trimmed
+    name = "(/[0-9]{0,20}\.)"
+
+    n = 0
+    for url in urls:
+        u = "http://" + url
+        t = re.search(type, url).group(0)
+        n = re.search(name, url).group(0)[1:-1]
+        im = image(u, t, n)
+        imgs.append(im)
+
+    return imgs
+
+
+#needs to down using obj make 2 for windows?
+def win_mass_down(path, ims):
+
+    i = 0
+    for im in ims:
+        #checks obj fin and if file with same name done 
+        #need to add check for im.fin
+        if(os.path.isfile(path + im.name + im.type) == False): #im.fin == False or 
+
+            f = requests.get(im.url)
+            open(path + im.name + im.type, 'wb').write(f.content)
+            im.fin = True
+            print(im.name + " completed")
+            i = i + 1
+        else:
+            print("a file named " + im.name + " already exists")
+
+            #add if file im.fin is false check and add a rename?
+
+    print(str(i) + " files downloaded")
+
+
 def main():
 
+    #4chan pattern for html scraping images
     pattern = "(?<!\"fileThumb\" )(href=\"//is2.4chan.org/.{1,22}\")"
 
     #test stuff
     url = "http://boards.4channel.org/c/thread/3510179"
-    path = "/home/ryan/Pictures/test/"
+    #path = "/home/ryan/Pictures/test/"
+
+    #for windows
+    path = "C:\\Users\\XPS\\Pictures\\test\\"
 
     #for line inputs
     #url = sys.argv[1]
@@ -88,7 +155,7 @@ def main():
     create_folder(path)
 
 
-    #returns list of strings after parsing html
+    #returns list of strings after parsing html specific to pattern
     urls = parse(pattern, url)
     #print(urls)
 
@@ -97,10 +164,11 @@ def main():
 
     #print(urls)
 
+    ims = make_ims(urls)
+
     #download spliced regex retrival
     #save to folder
-    mass_down(path, urls) #need fix
-
-
+    win_mass_down(path, ims) #need fix
 
 main()
+
