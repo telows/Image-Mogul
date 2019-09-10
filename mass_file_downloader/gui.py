@@ -12,8 +12,8 @@ class main_gui:
 
 		#self.url = ""
 		#self.path = ""
-		url = StringVar()
-		path = StringVar()
+		self.url = StringVar()
+		self.path = StringVar()
 
 
 		self.file_button = Button(master, text="...", command=self.pick_file)
@@ -50,14 +50,33 @@ class main_gui:
 
 
 
+
+#doesnt update path variable
+	def pick_file(self):
+		p =  filedialog.askdirectory(initialdir = "/",title = "Select folder",)
+		
+
+		self.path = str(p)
+		print(self.path)
+		return self.path
+		
+
+
+
 	def down(self):
-		url = self.url_input.get()
-		path = self.file_input.get()
+
+		if self.path == "":
+			self.path = self.pick_file()
+		else:
+			self.path = self.file_input.get()
+
+		self.url = self.url_input.get()
+
 
 		pattern = "(?<!\"fileThumb\" )(href=\"//is2.4chan.org/.{1,22}\")"
 
-		print(url)
-		print(path)
+		print(self.url)
+		print(self.path)
 
 		#create_folder(self.path)
 		#urls = parse(pattern, "http://" + self.url)
@@ -67,12 +86,7 @@ class main_gui:
 		#need downloader to give file types in windows
 
 
-	#doesnt update path variable
-	def pick_file(self):
-		p =  filedialog.askdirectory(initialdir = "/",title = "Select folder",)
-
-		path = str(p)
-		print(path)
+	
 
 
 
