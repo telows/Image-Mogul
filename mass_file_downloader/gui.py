@@ -5,23 +5,24 @@ from tkinter import *
 from tkinter import filedialog
 from mass_file_downloader import create_folder, parse, splice, mass_down
 
+path = ""
+url = ""
+
 class main_gui:
+
 	def __init__(self, master):
 		self.master = master
 		master.title("Mass Image Downloader")
 
-		#self.url = ""
-		#self.path = ""
-		self.url = StringVar()
-		self.path = StringVar()
-
-
+		#file choosing button
 		self.file_button = Button(master, text="...", command=self.pick_file)
+		#self.file_button = Button(master, text="...", command=lambda *args: pick_file())
 
+		#text
 		self.label_url = Label(master, text="Thread url: ")
 		self.label_path = Label(master, text="File path: ")
 
-
+		#inputs
 		self.url_input = Entry(master, validate="none") #add some kind of validation later
 		self.file_input = Entry(master, validate="none")
 
@@ -30,9 +31,11 @@ class main_gui:
 		#need printing file statuses window
 		
 
+		#download and exit buttons
 		self.down_button = Button(master, text="Download", command=self.down)
 		self.close_button = Button(master, text="Exit", command=master.quit)
-		
+		#self.down_button = Button(master, text="Download", command=lambda *args: down())
+
 
 		#LAYOUT
 		self.url_input.grid(row=1, column=2, columnspan=4, )#sticky=W)
@@ -53,35 +56,38 @@ class main_gui:
 
 #doesnt update path variable
 	def pick_file(self):
-		p =  filedialog.askdirectory(initialdir = "/",title = "Select folder",)
-		
 
-		self.path = str(p)
-		print(self.path)
-		return self.path
-		
+		global path
+		p =  filedialog.askdirectory(initialdir = "/",title = "Select folder",)
+
+		self.file_input.delete(0, END)
+		self.file_input.insert(0, str(p))
+
+		path = self.file_input.get()
 
 
 
 	def down(self):
 
-		if self.path == "":
-			self.path = self.pick_file()
+		global path
+		global url
+
+		url = self.url_input.get()
+
+		if self.file_input.get() == "":
+			self.pick_file()
 		else:
-			self.path = self.file_input.get()
-
-		self.url = self.url_input.get()
+			path = self.file_input.get()
 
 
+		#for testing purposes
 		pattern = "(?<!\"fileThumb\" )(href=\"//is2.4chan.org/.{1,22}\")"
 
-		print(self.url)
-		print(self.path)
 
-		#create_folder(self.path)
-		#urls = parse(pattern, "http://" + self.url)
+		#create_folder(path)
+		#urls = parse(pattern, "http://" + url)
 		#urls = splice(urls)
-		#mass_down(self.path, urls)
+		#mass_down(path, urls)
 
 		#need downloader to give file types in windows
 
