@@ -4,7 +4,7 @@ import os
 import requests
 import re
 from time import time
-from multiprocessing.pool import ThreadPool
+import platform
 
 from html_scraper import parse
 
@@ -138,37 +138,68 @@ def win_mass_down(path, ims):
 
 def main():
 
-    #4chan pattern for html scraping images
-    pattern = "(?<!\"fileThumb\" )(href=\"//is2.4chan.org/.{1,22}\")"
-
-    #test stuff
-    url = "http://boards.4channel.org/c/thread/3510179"
-    #path = "/home/ryan/Pictures/test/"
-
-    #for windows
-    path = "C:\\Users\\XPS\\Pictures\\test\\"
-
     #for line inputs
     #url = sys.argv[1]
     #path = sys.argv[2]
 
     create_folder(path)
 
-
     #returns list of strings after parsing html specific to pattern
     urls = parse(pattern, url)
-    #print(urls)
 
     #splice the regex as list
     urls = splice(urls)
 
-    #print(urls)
-
     ims = make_ims(urls)
 
-    #download spliced regex retrival
-    #save to folder
-    win_mass_down(path, ims) #need fix
+    if platform.system() == "Windows":
+        #do win down
+        win_mass_down(path, ims)
+    else:
+        #do regular down
+        mass_down(path, ims)
 
-main()
 
+
+def gui_main(path, url):
+
+    #function to parse url and get correct pattern
+    #4chan pattern
+    pattern = "(?<!\"fileThumb\" )(href=\"//is2.4chan.org/.{1,22}\")"
+
+
+    create_folder(path)
+    print(url)
+    print(path)
+    #error with parse make https check?
+    urls = parse(pattern, url)
+    urls = splice(urls)
+    ims = make_ims(urls)
+
+    if platform.system() == "Windows":
+        #do win down
+        win_mass_down(path, ims)
+    else:
+        #do regular down
+        mass_down(path, ims)
+
+
+#main()
+
+#test stuff
+
+#url = "http://boards.4channel.org/c/thread/3528524"
+#path = "/home/ryan/Pictures/test/"
+#for windows
+#path = "C:\\Users\\XPS\\Pictures\\test3\\"
+
+#gui_main(path, url)
+
+
+#TODO LIST
+'''
+make function to get correct pattern using url
+add booru sites
+add imgur && more
+
+'''

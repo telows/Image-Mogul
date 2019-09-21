@@ -3,7 +3,9 @@
 
 from tkinter import *
 from tkinter import filedialog
-from mass_file_downloader import create_folder, parse, splice, mass_down
+from mass_file_downloader import gui_main
+
+
 
 path = ""
 url = ""
@@ -79,24 +81,8 @@ class main_gui:
 		else:
 			path = self.file_input.get()
 
-
-		#for testing purposes
-		pattern = "(?<!\"fileThumb\" )(href=\"//is2.4chan.org/.{1,22}\")"
-
-
-		#create_folder(path)
-		#urls = parse(pattern, "http://" + url)
-		#urls = splice(urls)
-		#mass_down(path, urls)
-
-		#need downloader to give file types in windows
-
-
-	
-
-
-
-#C:\Users\XPS\Documents/test/
+		#downloads files with given info
+		gui_main(path, url)
 
 
 root = Tk()
@@ -106,8 +92,9 @@ root.mainloop()
 
 
 #__TODO__LIST__
+'''
 
-#need to add scrollbar for messages
+need to add scrollbar for messages
+make function to read url and choose right pattern via regex the url
 
-#listbox for file choosing or site choosing
-#add radio buttons to choose site or just regex the url
+'''

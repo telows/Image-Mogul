@@ -5,6 +5,7 @@ from mass_file_downloader import create_folder, splice, mass_down
 from html_scraper import parse
 from tkinter import *
 
+import platform
 
 #teststuff
 #pattern = "(?<!\"fileThumb\" )(href=\"//is2.4chan.org/.{1,22}\")"
@@ -55,14 +56,14 @@ def win_mass_down(path, urls):
 
 
 #main apparatus
-create_folder(wpath)
-urls = parse(pattern, url)
+#create_folder(wpath)
+#urls = parse(pattern, url)
 #print(urls)
-urls = win_splice(urls)
+#urls = win_splice(urls)
 #print(urls)
-win_mass_down(pattern, urls)
+#win_mass_down(pattern, urls)
 
 
-
+platform.system()
 
 #check for 404 error on download
