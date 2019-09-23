@@ -1,10 +1,7 @@
 
-#need to install on debian tkinter
-
 from tkinter import *
 from tkinter import filedialog
 from mass_file_downloader import gui_main
-
 
 
 path = ""
@@ -18,10 +15,9 @@ class main_gui:
 
 		#file choosing button
 		self.file_button = Button(master, text="...", command=self.pick_file)
-		#self.file_button = Button(master, text="...", command=lambda *args: pick_file())
 
 		#text
-		self.label_url = Label(master, text="Thread url: ")
+		self.label_url = Label(master, text="Site url: ")
 		self.label_path = Label(master, text="File path: ")
 
 		#inputs
@@ -36,12 +32,11 @@ class main_gui:
 		#download and exit buttons
 		self.down_button = Button(master, text="Download", command=self.down)
 		self.close_button = Button(master, text="Exit", command=master.quit)
-		#self.down_button = Button(master, text="Download", command=lambda *args: down())
 
 
 		#LAYOUT
-		self.url_input.grid(row=1, column=2, columnspan=4, )#sticky=W)
-		self.file_input.grid(row=2, column=2, columnspan=4, )#sticky=W)
+		self.url_input.grid(row=1, column=2, columnspan=4, )
+		self.file_input.grid(row=2, column=2, columnspan=4, )
 
 
 		self.label_url.grid(row=1, column=1, columnspan=1, sticky=W)
@@ -56,7 +51,7 @@ class main_gui:
 
 
 
-#doesnt update path variable
+#updates file_input and path
 	def pick_file(self):
 
 		global path
@@ -74,8 +69,10 @@ class main_gui:
 		global path
 		global url
 
+		#add check for url existing
 		url = self.url_input.get()
 
+		#makes sure a path exists
 		if self.file_input.get() == "":
 			self.pick_file()
 		else:
@@ -95,6 +92,5 @@ root.mainloop()
 '''
 
 need to add scrollbar for messages
-make function to read url and choose right pattern via regex the url
 
 '''

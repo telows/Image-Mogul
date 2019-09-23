@@ -9,7 +9,6 @@ import platform
 from html_scraper import parse
 
 
-#piviting to object oriented for easier functions
 class image:
 
     def __init__(self, url, type, name):
@@ -59,6 +58,7 @@ def splice(lis):
     return lis
 
 #need to check redundency in files
+#need to clean up
 def mass_down(path, urls):
 
     i = 0
@@ -89,9 +89,6 @@ def mass_down(path, urls):
 
 
 
-
-#obj ori stuff
-
 #needs to make lis of objects
 def make_ims(urls):
 
@@ -114,7 +111,7 @@ def make_ims(urls):
     return imgs
 
 
-#needs to down using obj make 2 for windows?
+#downloads files for windows
 def win_mass_down(path, ims):
 
     i = 0
@@ -136,11 +133,27 @@ def win_mass_down(path, ims):
     print(str(i) + " files downloaded")
 
 
+
+#function to find pattern for website
+def pick_pattern(url):
+
+    if "4chan.org" or "4channel.org" in url:
+        #chan pattern
+        return "(?<!\"fileThumb\" )(href=\"//is2.4chan.org/.{1,22}\")"
+    #elif:
+        #add more patterns here
+    else:
+        #very general guess pattern
+        return "(src=\"https:.{1,120}\.[a-z]{3,4})"
+
+
 def main():
 
     #for line inputs
-    #url = sys.argv[1]
-    #path = sys.argv[2]
+    url = sys.argv[1]
+    path = sys.argv[2]
+
+    pattern = pick_pattern(url)
 
     create_folder(path)
 
@@ -163,15 +176,10 @@ def main():
 
 def gui_main(path, url):
 
-    #function to parse url and get correct pattern
-    #4chan pattern
-    pattern = "(?<!\"fileThumb\" )(href=\"//is2.4chan.org/.{1,22}\")"
-
-
+    pattern = pick_pattern(url)
     create_folder(path)
-    print(url)
-    print(path)
-    #error with parse make https check?
+
+    #gets usable list of urls
     urls = parse(pattern, url)
     urls = splice(urls)
     ims = make_ims(urls)
@@ -185,14 +193,6 @@ def gui_main(path, url):
 
 
 #main()
-
-#test stuff
-
-#url = "http://boards.4channel.org/c/thread/3528524"
-#path = "/home/ryan/Pictures/test/"
-#for windows
-#path = "C:\\Users\\XPS\\Pictures\\test3\\"
-
 #gui_main(path, url)
 
 
@@ -201,5 +201,6 @@ def gui_main(path, url):
 make function to get correct pattern using url
 add booru sites
 add imgur && more
+need to clean up code in download functions
 
 '''
