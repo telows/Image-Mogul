@@ -140,8 +140,9 @@ def pick_pattern(url):
     if "4chan.org" or "4channel.org" in url:
         #chan pattern
         return "(?<!\"fileThumb\" )(href=\"//is2.4chan.org/.{1,22}\")"
-    #elif:
+    elif "imgur" in url:
         #add more patterns here
+        return "(?!\/)([\/.|\w|\s|-])*\.(?:jpg|gif|png|webm|jpeg)"
     else:
         #very general guess pattern
         return "(src=\"https:.{1,120}\.[a-z]{3,4})"
@@ -154,7 +155,6 @@ def main():
     path = sys.argv[2]
 
     pattern = pick_pattern(url)
-
     create_folder(path)
 
     #returns list of strings after parsing html specific to pattern
@@ -198,7 +198,6 @@ def gui_main(path, url):
 
 #TODO LIST
 '''
-make function to get correct pattern using url
 add booru sites
 add imgur && more
 need to clean up code in download functions

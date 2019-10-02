@@ -34,6 +34,8 @@ class main_gui:
 		self.close_button = Button(master, text="Exit", command=master.quit)
 
 
+
+
 		#LAYOUT
 		self.url_input.grid(row=1, column=2, columnspan=4, )
 		self.file_input.grid(row=2, column=2, columnspan=4, )
