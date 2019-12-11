@@ -27,6 +27,8 @@ class main_gui:
 
 
 		#need printing file statuses window
+		self.out_scroll = Scrollbar(master)
+		self.out_list = Listbox(master, yscrollcommand = Scrollbar.set)
 		
 
 		#download and exit buttons
@@ -46,6 +48,10 @@ class main_gui:
 
 
 		self.file_button.grid(row=2, column=6, columnspan=1)
+
+		#file output
+		self.out_scroll.grid(row=3, column=5, rowspan=6)
+		self.out_list.grid(row=3, column=1, columnspan=8, rowspan=6)
 
 		self.down_button.grid(row=10, column=2)
 		self.close_button.grid(row=10, column=3)
