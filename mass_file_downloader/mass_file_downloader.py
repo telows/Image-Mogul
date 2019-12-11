@@ -179,6 +179,9 @@ def gui_main(path, url):
     pattern = pick_pattern(url)
     create_folder(path)
 
+    #needed for path fix
+    path = path + "/"
+
     #gets usable list of urls
     urls = parse(pattern, url)
     urls = splice(urls)
